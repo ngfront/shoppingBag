@@ -1,0 +1,56 @@
+	<ul class="headingStrip">
+		<li>{{totalItems}} Items</li>
+		<li>
+			<ul class="sub">
+			
+			<li>Size</li>
+			<li>Qty</li>
+		<li>Price</li>
+			</ul>
+		</li>
+		
+		</ul>
+		<ul class="productWrap">
+			<li *ngFor="let product of products">
+				<product-image [image]="product.img_url"></product-image>
+				<div class="productInfoBlock">
+					<product-desc (edit)="initiateEditModal($event)" [product]="product"></product-desc>
+				<product-size [size]="product.selected_size.code"></product-size>
+				<product-qty [qty]="product.quantity"></product-qty>
+				<product-price [price]="product.price * product.quantity"></product-price>
+				</div>
+				
+			</li>
+		<ul>
+
+		<div class="reveal-modal-bg" *ngIf="modalStatus" [class.isOpen]="modalStatus"></div>
+		<div class="productModal editBlock" *ngIf="modalStatus" [class.isOpen]="modalStatus">
+			
+			<div class="descBlock">
+				<div class="infoBlock">
+					<h3 class="p_name">{{productToEdit.name}}</h3>
+					<div class="price">${{productToEdit.price}}</div>
+			
+					<color-options (colorChanged)="onColorChange($event)" [colorOptions]="productToEdit.available_options.colors" [selectedColor]="productToEdit.selected_color"></color-options>
+					
+					<div class="inlineMe"><size-options (sizeChanged)="onSizeChange($event)" [selectedSize]="productToEdit.selected_size" [sizes]="productToEdit.available_options.sizes"></size-options>
+					<quantity-options (qtyChanged)="onQtyChange($event)" [qtySelected]="productToEdit.quantity"></quantity-options></div>
+					
+					
+					<button class="edit_product" (click)="applyChanges(updatedProduct)">Edit</button>
+					<a class="product_details">Product Details</a>
+				</div>
+
+				<div class="imageBlock">
+					<img src="app/images/{{productToEdit.img_url}}.jpg">
+				</div>
+				<button class="cancel" (click)="modalStatus=false">
+					<svg style="display: none"><symbol id="icon-cross" viewBox="0 0 24 24">
+
+<path class="path1" d="M19 4q0.43 0 0.715 0.285t0.285 0.715q0 0.422-0.289 0.711l-6.297 6.289 6.297 6.289q0.289 0.289 0.289 0.711 0 0.43-0.285 0.715t-0.715 0.285q-0.422 0-0.711-0.289l-6.289-6.297-6.289 6.297q-0.289 0.289-0.711 0.289-0.43 0-0.715-0.285t-0.285-0.715q0-0.422 0.289-0.711l6.297-6.289-6.297-6.289q-0.289-0.289-0.289-0.711 0-0.43 0.285-0.715t0.715-0.285q0.422 0 0.711 0.289l6.289 6.297 6.289-6.297q0.289-0.289 0.711-0.289z"></path>
+</symbol></svg>
+<svg class="icon icon-cross"><use xlink:href="#icon-cross"></use></svg>
+				</button>
+			</div>
+			
+		</div>
